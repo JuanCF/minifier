@@ -1,7 +1,8 @@
-var prompt = require('prompt');
-var ProgressBar = require('progress');
+var prompt = require('prompt'),
+	ProgressBar = require('progress'),
+	sh = require('shelljs');
 
-var bar = new ProgressBar(' [:bar] :percent', {
+/*var bar = new ProgressBar(' [:bar] :percent', {
 	total: 10,
 	complete: '|',
 	incomplete: ' ',
@@ -15,11 +16,11 @@ var timer = setInterval(function () {
 		console.log('\ncomplete\n');
 		clearInterval(timer);
 	}
-}, 1000);
+}, 1000);*/
 //
 // Start the prompt
 //
-/*prompt.start();
+prompt.start();
 
 //
 // Get two properties from the user: username and email
@@ -28,10 +29,9 @@ prompt.get(['Source', 'Dest'], function (err, result) {
 	//
 	// Log the results.
 	//
-	console.log('Command-line input received:');
-	console.log('  username: ' + result.Origin);
-	console.log('  email: ' + result.Destiny);
-	process.exit(0);
-});*/
-
-//var ProgressBar = require('../');
+	/*console.log('Command-line input received:');
+	console.log('  username: ' + result.Source);
+	console.log('  email: ' + result.Dest);*/
+	sh.exec('gulp copyFiles --source='+result.Source+' '+'--dest='+result.Dest, function (code, output) {});
+	//process.exit(0);
+});
