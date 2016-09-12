@@ -26,12 +26,8 @@ prompt.start();
 // Get two properties from the user: username and email
 //
 prompt.get(['Source', 'Dest'], function (err, result) {
-	//
-	// Log the results.
-	//
-	/*console.log('Command-line input received:');
-	console.log('  username: ' + result.Source);
-	console.log('  email: ' + result.Dest);*/
-	sh.exec('gulp copyFiles --source='+result.Source+' '+'--dest='+result.Dest, function (code, output) {});
+	//sh.exec('gulp copyFiles --source='+result.Source+' '+'--dest='+result.Dest, function (code, output) {});
+	sh.exec('gulp copyFiles --source='+result.Source+' '+'--dest='+result.Dest);
+	sh.exec('gulp minify '+'--dest='+result.Dest);
 	//process.exit(0);
 });

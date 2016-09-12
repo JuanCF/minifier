@@ -4,6 +4,7 @@ var fs = require('fs'),
 	path = require('path'),
 	gulp = require('gulp'),
 	sh = require('shelljs'),
+	uglify = require('gulp-uglify'),
 	argv = require('yargs').argv;
 
 gulp.task('testTask', function () {
@@ -33,17 +34,41 @@ gulp.task('copyFiles', function () {
 		'package.json',
 		'README.md'
 	];
+	if (!sh.test('-e', destDir)) {
+		console.log("Directory " + destDir + " does not exists, creating it...");
+		sh.mkdir('-p', destDir);
+	}
 
 	directoriesToCopy.forEach(function (dir, idx) {
 		var commandToExec = "cp -R " + basePath + '/' + dir + ' ' + destDir;
 		sh.exec(commandToExec, function (code, stdout, stderr) {
-			if(code === 0){
-				console.log("Sucessfully copied "+ basePath + '/' + dir +" to "+ destDir);
-			}else{
-				console.log("Failed to copy "+ basePath + '/' + dir +" to "+ destDir);
-				console.log("Error",stderr);
-
+			if (code === 0) {
+				console.log("Sucessfully copied " + basePath + '/' + dir + " to " + destDir);
+			} else {
+				console.log("Failed to copy " + basePath + '/' + dir + " to " + destDir);
+				console.log("Error", stderr);
 			}
 		});
 	});
+});
+
+gulp.task('minify', function () {
+	var destDir = argv.dest;
+	var dirsDestToCompress = [
+		'www/js/**/*.js'
+	];
+	dirsDestToCompress.forEach(function (relPath, idx) {
+		var path = destDir+'/'+relPath;
+		console.log(path);
+		gulp.src(path)
+			.pipe(uglify())
+			.pipe(gulp.dest(destDir+'/'+'www/js'));
+	});
+	/*gulp.src(paths.scripts)
+	.pipe(uglify())
+	.pipe(concat('contactPicker.js'))
+	.pipe(rename({
+        extname: '.min.js'
+     }))
+	.pipe(gulp.dest('contactPicker'));*/
 });
