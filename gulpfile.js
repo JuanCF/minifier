@@ -60,15 +60,8 @@ gulp.task('minify', function () {
 	dirsDestToCompress.forEach(function (relPath, idx) {
 		var path = destDir+'/'+relPath;
 		console.log(path);
-		gulp.src(path)
+		gulp.src([path,'!'+destDir+'/'+'www/js/app.js'])
 			.pipe(uglify())
 			.pipe(gulp.dest(destDir+'/'+'www/js'));
 	});
-	/*gulp.src(paths.scripts)
-	.pipe(uglify())
-	.pipe(concat('contactPicker.js'))
-	.pipe(rename({
-        extname: '.min.js'
-     }))
-	.pipe(gulp.dest('contactPicker'));*/
 });
