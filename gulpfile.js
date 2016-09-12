@@ -12,13 +12,15 @@ gulp.task('testTask', function () {
 
 gulp.task('copyFiles', function () {
 	var basePath = argv.source;
+	var destDir = argv.dest;
 	var directoriesToCopy = [
-		'hooks/',
-		'node_modules/',
-		'platforms/',
-		'plugins/',
-		'resources/',
-		'scss/',
+		'hooks',
+		'node_modules',
+		'platforms',
+		'plugins',
+		'resources',
+		'scss',
+		'www',
 		'.bowerrc',
 		'.editorconfig',
 		'.gitignore',
@@ -31,11 +33,17 @@ gulp.task('copyFiles', function () {
 		'package.json',
 		'README.md'
 	];
+
 	directoriesToCopy.forEach(function (dir, idx) {
-		sh.cp('-R',basePath + '/' + dir,'build/'+dir);
+		var commandToExec = "cp -R " + basePath + '/' + dir + ' ' + destDir;
+		sh.exec(commandToExec, function (code, stdout, stderr) {
+			if(code === 0){
+				console.log("Sucessfully copied "+ basePath + '/' + dir +" to "+ destDir);
+			}else{
+				console.log("Failed to copy "+ basePath + '/' + dir +" to "+ destDir);
+				console.log("Error",stderr);
+
+			}
+		});
 	});
-	/*gulp.src(directoriesToCopy, {
-		base: basePath
-	})
-  	.pipe(gulp.dest('build'));*/
 });
