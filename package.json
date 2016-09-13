@@ -11,6 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "gulp-concat": "^2.6.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-notify": "^2.2.0",
     "gulp-uglify": "^1.5.4"
   },
   "dependencies": {
